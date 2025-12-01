@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+    --bg: #008BF9;
+    --bg-1: #000000;
+    --bg-2: #0086F0;
+    --bg-3: #2C2C2C;
+    --bg-4: #1A1A1A;
+
+    --color-white: #FFFFFF;
+    --placeholder: #545454;
+
+    --text-1: #FFFFFF;
+    --text-2: #EEE;
+    --text-3: #000000;
+
+    --border: #009ef9;
+    --border-2: #BABABA;
+
+    --logo: #FFFFFF;
+}
+
+body {
+    font-family: Inter;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.6s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

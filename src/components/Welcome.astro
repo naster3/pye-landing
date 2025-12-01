@@ -1,0 +1,351 @@
+---
+import Decoration from "./Circle.astro";
+import { DISCORD_INVITE_URL } from "../consts.ts";
+---
+
+<section
+	class="relative flex flex-col xl:flex-row justify-between items-center xl:pl-15 pt-25 pb-45 2xl:pt-35 2xl:pb-70"
+>
+	<div class="absolute right-240 h-[854px] -z-10">
+		<Decoration height="100%" />
+	</div>
+	<div class="reveal flex flex-col gap-6 2xl:w-[487px] px-10">
+		<span class="text-2xl text-(--text-2)">Comunidad</span>
+		<span>
+			<span
+				class="font-[Bebas_Neue] text-(--text-1) lg:text-8xl text-6xl"
+			>
+				Programadores y Estudiantes
+			</span>
+		</span>
+		<span class="text-[20px] text-(--text-2)"
+			>¡Únete a nuestra comunidad y conecta con otros entusiastas de la
+			tecnología!</span
+		>
+		<a
+			class="cursor-pointer w-[230px] py-2.5 text-center text-white bg-(--bg-1) rounded-lg text-2xl font-[Bebas_Neue]"
+			href={DISCORD_INVITE_URL}>Unirme</a
+		>
+		<div class="flex items-center gap-2 text-(--text-1) pl-5">
+			<span class="relative flex size-2">
+				<span
+					class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#19e64c] opacity-75"
+				></span>
+				<span
+					class="relative inline-flex m-auto size-1.5 rounded-full bg-[#19e64c]"
+				></span>
+			</span>
+			<span id="online-count">0</span> personas online
+		</div>
+	</div>
+	<div
+		id="console-container"
+		class="reveal flex-col w-[874px] h-[552px] bg-(--bg-4) drop-shadow-2xl drop-shadow-black rounded-xl rounded-r-none
+		hidden 2xl:flex"
+	>
+		<div
+			class="w-full px-4 py-2 flex gap-2 bg-linear-to-r from-[#545454] to-[#1A1A1A] rounded-t-xl"
+		>
+			<div class="w-3.5 h-3.5 bg-[#FF6060] rounded-full"></div>
+			<div class="w-3.5 h-3.5 bg-[#FFB560] rounded-full"></div>
+			<div class="w-3.5 h-3.5 bg-[#9AFF60] rounded-full"></div>
+		</div>
+		<div
+			class="grow p-3 bg-(--bg-4) text-white flex flex-col text-[16px] font-mono gap-1 overflow-y-auto"
+		>
+			<span id="console"></span>
+		</div>
+	</div>
+</section>
+
+<style>
+	@keyframes animate-blink {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+	}
+
+	.animate-blink {
+		animation: animate-blink 1s infinite;
+	}
+</style>
+
+<script>
+	async function console(discordData: any, stopSpinner: Function) {
+		const consoleElement = document.getElementById("console");
+		if (!consoleElement) return;
+
+		if (
+			!discordData &&
+			discordData.members === undefined &&
+			discordData.presence_count === undefined &&
+			discordData.channels === undefined
+		) {
+			await write("Error al cargar los datos de la comunidad.");
+			return;
+		}
+
+		async function spinner(duration: number) {
+			const spinnerElement = document.createElement("span");
+			const spinnerChars = ["|", "/", "—", "\\"];
+			let i = 0;
+			const interval = setInterval(() => {
+				spinnerElement.textContent =
+					spinnerChars[i % spinnerChars.length];
+				i++;
+			}, 100);
+			spinnerElement.textContent = spinnerChars[0];
+			consoleElement.appendChild(spinnerElement);
+			scrollToBottom();
+			await new Promise((resolve) => setTimeout(resolve, duration));
+			clearInterval(interval);
+			consoleElement.removeChild(spinnerElement);
+		}
+
+		async function clear() {
+			consoleElement.innerHTML = "";
+		}
+
+		function scrollToBottom() {
+			consoleElement.parentElement.scrollTo({
+				behavior: "smooth",
+				top: consoleElement.scrollHeight,
+			});
+		}
+
+		async function newLine() {
+			const br = document.createElement("br");
+			consoleElement.appendChild(br);
+		}
+
+		async function write(line: string, delay = 5) {
+			const lineElement = document.createElement("span");
+			consoleElement.appendChild(lineElement);
+			scrollToBottom();
+			lineElement.textContent = " ";
+			for (let i = 0; i < line.length; i++) {
+				if (line[i] == "\n") {
+					await newLine();
+					scrollToBottom();
+					continue;
+				}
+				lineElement.textContent += line[i];
+				if (delay > 0) {
+					await wait(delay);
+				}
+				scrollToBottom();
+			}
+		}
+
+		async function input(): Promise<String> {
+			const inputElement = document.createElement("input");
+			inputElement.style.background = "transparent";
+			inputElement.style.border = "none";
+			inputElement.style.color = "white";
+			inputElement.style.outline = "none";
+			consoleElement.appendChild(inputElement);
+			inputElement.focus();
+
+			return new Promise<String>((resolve) => {
+				inputElement.addEventListener("keydown", (event) => {
+					if (event.key === "Enter") {
+						const value = inputElement.value;
+						inputElement.disabled = true;
+						const valueElement = document.createElement("span");
+						valueElement.textContent = value + "\n";
+						consoleElement.replaceChild(valueElement, inputElement);
+						scrollToBottom();
+						resolve(value);
+					}
+				});
+			});
+		}
+
+		async function wait(ms: number) {
+			return new Promise((resolve) => setTimeout(resolve, ms));
+		}
+
+		await wait(6000);
+		stopSpinner();
+
+		await write("Cargando datos de la comunidad...");
+		await spinner(1500);
+		await clear();
+
+		await write("Cargando canales de voz...");
+		await spinner(1000);
+		await newLine();
+		await write(`Canales cargados: ${discordData.channels.length}\n`);
+
+		for (const channel of discordData.channels) {
+			await write(`  - #${channel.name}\n`, 0);
+			await wait(10);
+		}
+		await newLine();
+
+		await write("Cargando miembros...");
+		await spinner(1500);
+		await newLine();
+		await write(`Miembros cargados: ${discordData.members.length}\n`);
+		for (const member of discordData.members) {
+			await write(`  - ${member.username}\n`, 0);
+			await wait(10);
+		}
+		await newLine();
+		await write("Finalizando...");
+		await spinner(1000);
+		await newLine();
+		await newLine();
+		await write(
+			`Bienvenido a PyE! Actualmente hay ${discordData.presence_count} personas en línea.\n`,
+		);
+
+		do {
+			await write("¿Quieres unirte a nosotros?: Si(S) No(N) ");
+			const response = await input();
+
+			if (
+				response.toLowerCase() === "s" ||
+				response.toLowerCase() === "si"
+			) {
+				await newLine();
+				await write("Procesando tu solicitud de unión...");
+				await spinner(1500);
+				await newLine();
+				await write("¡Listo!\n");
+				await write(
+					"Serás redirigido a nuestro servidor de Discord en breve...",
+				);
+				await spinner(2500);
+				await newLine();
+				await write("¡Bienvenido a la comunidad!\n");
+				window.open("https://discord.gg/programacion", "_blank");
+				break;
+			} else if (
+				response.toLowerCase() === "n" ||
+				response.toLowerCase() === "no"
+			) {
+				await newLine();
+				await write("No hay problema :c\n");
+				await write("¡Que tengas un buen día!\n");
+				await write(
+					"Recuerda que siempre eres bienvenido a unirte más tarde.\n",
+				);
+				break;
+			} else {
+				await newLine();
+				await write("No pude entender tu respuesta.\n");
+				await write("Por favor, intenta nuevamente.\n");
+			}
+		} while (true);
+	}
+
+	document.addEventListener("DOMContentLoaded", () => {
+		const timeElement = document.getElementById("current-time");
+
+		function updateTime() {
+			const now = new Date();
+			const formattedTime = now.toLocaleString("es-AR", {
+				day: "2-digit",
+				month: "2-digit",
+				year: "numeric",
+				hour: "2-digit",
+				minute: "2-digit",
+				second: "2-digit",
+				hour12: true,
+			});
+			if (timeElement) {
+				timeElement.textContent = formattedTime;
+			}
+		}
+
+		updateTime();
+
+		/// Active count from Discord API
+
+		const onlineCountElement = document.getElementById("online-count");
+
+		const intervalTime = 10;
+
+		function startCount(to = 0) {
+			const from = 0;
+			const duration = 2000; // Duración total de la animación en ms
+
+			const lerp = (start: number, end: number, t: number) => {
+				return start + (end - start) * t;
+			};
+
+			const easeInOut = (t: number) => {
+				return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+			};
+
+			const startTime = Date.now();
+
+			const interval = setInterval(() => {
+				const currentTime = Math.min(Date.now() - startTime, duration);
+				const t = currentTime / duration;
+				const currentCount = Math.floor(lerp(from, to, easeInOut(t)));
+				if (onlineCountElement) {
+					onlineCountElement.textContent = currentCount.toString();
+				}
+				if (currentTime >= duration) {
+					clearInterval(interval);
+				}
+			}, intervalTime);
+		}
+
+		function infiniteSpinner(): Function {
+			const console = document.getElementById("console");
+			if (!console) return () => {};
+
+			const spinnerElement = document.createElement("span");
+			console.appendChild(spinnerElement);
+
+			const spinnerChars = ["|", "/", "—", "\\"];
+			let i = 0;
+			const interval = setInterval(() => {
+				spinnerElement.textContent =
+					spinnerChars[i % spinnerChars.length];
+				i++;
+			}, 100);
+
+			return () => {
+				clearInterval(interval);
+				spinnerElement.remove();
+			};
+		}
+
+		let stopSpinner: Function = infiniteSpinner();
+
+		fetch(
+			"https://discordapp.com/api/guilds/768278151435386900/widget.json",
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console(data, stopSpinner);
+				startCount(data.presence_count || 0);
+			})
+			.catch(() => {});
+
+		// Focus console on click
+
+		const container = document.getElementById("console-container");
+
+		if (container) {
+			container.addEventListener("click", () => {
+				const consoleElement = document.getElementById("console");
+				if (!consoleElement) return;
+
+				const inputs = consoleElement.getElementsByTagName("input");
+				if (!inputs) return;
+				if (inputs.length > 0) {
+					inputs[inputs.length - 1].focus();
+				}
+			});
+		}
+	});
+</script>

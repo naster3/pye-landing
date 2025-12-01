@@ -1,0 +1,161 @@
+---
+import Logo from "../assets/logo.svg";
+
+const DISABLE_COVER = false;
+---
+
+<section
+    id="cover"
+    class={"fixed w-screen h-screen bg-(--bg-3) top-0 left-0 z-20 flex justify-center items-center pointer-events-none" +
+        (DISABLE_COVER ? " hidden" : "")}
+>
+    <Logo
+        id="logo"
+        class="text-(--text-1) absolute animation-logo"
+        width="200px"
+        height="200px"
+    />
+    <span id="text" class="text-(--text-1) text-9xl font-bold animation-text"
+        >PyE</span
+    >
+</section>
+
+<style>
+    @keyframes text-fade {
+        70% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: scale(0) rotate(100deg);
+        }
+    }
+
+    @keyframes logo-show {
+        0% {
+            opacity: 0;
+            transform: scale(0.5) rotate(-150deg);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+    }
+
+    .animation-logo {
+        opacity: 0;
+        animation: logo-show 0.75s cubic-bezier(0.3, 0.29, 0.43, 0.99) 0.9s
+            forwards;
+    }
+
+    .animation-text {
+        animation: text-fade 0.55s cubic-bezier(0.85, -0.81, 0.67, 0.7) 0.5s
+            forwards;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        async function startFade() {
+            function hide(element: HTMLElement) {
+                element.style.display = "none";
+            }
+
+            function getPosition(element: HTMLElement): {
+                top: number;
+                left: number;
+                width: number;
+                height: number;
+            } {
+                const rect = element.getBoundingClientRect();
+                return {
+                    top: rect.top + window.scrollY,
+                    left: rect.left + window.scrollX,
+                    width: rect.width,
+                    height: rect.height,
+                };
+            }
+
+            const cover = document.getElementById("cover");
+            const logo = document.getElementById("logo");
+            const text = document.getElementById("text");
+            const targetLogo = document.querySelector(
+                'svg[data-target="logo"]',
+            ) as HTMLElement;
+
+            if (!cover || !logo || !text || !targetLogo) return;
+
+            hide(text);
+
+            const coverRect = getPosition(cover);
+            const coverRadius =
+                Math.sqrt(
+                    Math.pow(coverRect.left + coverRect.width, 2) +
+                        Math.pow(coverRect.top + coverRect.height, 2),
+                ) * 1.6;
+
+            console.log(coverRadius);
+
+            // Make logo free-floating
+            const logoRect = getPosition(logo);
+            logo.parentElement!.removeChild(logo);
+            document.body.appendChild(logo);
+            logo.style.position = "absolute";
+            logo.style.top = `${logoRect.top}px`;
+            logo.style.left = `${logoRect.left}px`;
+            logo.style.animation = "none";
+            logo.style.transition = "none";
+            logo.style.opacity = "1";
+            logo.style.zIndex = "20";
+
+            hide(cover);
+
+            // Move logo to target position
+            const targetRect = targetLogo.getBoundingClientRect();
+            logo.style.transition =
+                "top 1s ease-in-out, left 1s ease-in-out, width 1s ease-in-out, height 1s ease-in-out";
+            logo.style.top = `${targetRect.top}px`;
+            logo.style.left = `${targetRect.left}px`;
+            logo.style.width = `${targetRect.width}px`;
+            logo.style.height = `${targetRect.height}px`;
+            logo.style.transitionTimingFunction =
+                "cubic-bezier(.88,-0.55,.43,.99)";
+
+            // create a full cover to make a circle effect closing around the logo
+            const fullCover = document.createElement("div");
+            fullCover.style.position = "absolute";
+            fullCover.style.top = `${targetRect.top + targetRect.height / 2 - coverRadius}px`;
+            fullCover.style.left = `${targetRect.left + targetRect.width / 2 - coverRadius}px`;
+            fullCover.style.width = `${coverRadius * 2}px`;
+            fullCover.style.height = `${coverRadius * 2}px`;
+            fullCover.style.zIndex = "19";
+            fullCover.style.backgroundColor = getComputedStyle(
+                document.documentElement,
+            ).getPropertyValue("--bg-3");
+            fullCover.style.borderRadius = "50%";
+            fullCover.style.transform = "scale(1)";
+            fullCover.style.transition = "transform 1s ease-in-out";
+            fullCover.style.transitionTimingFunction =
+                "cubic-bezier(.63,-0.82,.69,.73)";
+
+            setTimeout(() => {
+                fullCover.style.transform = "scale(0)";
+
+                setTimeout(() => {
+                    logo.parentElement!.removeChild(logo);
+                    fullCover.parentElement!.removeChild(fullCover);
+                }, 1000);
+            }, 250);
+
+            document.body.appendChild(fullCover);
+        }
+
+        setTimeout(async () => {
+            await startFade();
+        }, 2000);
+    });
+</script>

@@ -1,0 +1,72 @@
+---
+import XLogo from "../assets/icons/x.svg";
+import YoutubeLogo from "../assets/icons/youtube.svg";
+import DiscordLogo from "../assets/icons/discord.svg";
+import InstagramLogo from "../assets/icons/instagram.svg";
+import Decoration from "./Circle.astro";
+import {
+    DISCORD_INVITE_URL,
+    INSTAGRAM_URL,
+    YOUTUBE_URL,
+    TWITTER_URL,
+} from "../consts.ts";
+---
+
+<section class="py-50 relative h-[854px] box-content">
+    <div class="w-full -z-10">
+        <Decoration
+            class="absolute ml-[50%] w-[854px] translate-x-[-50%]"
+            height="100%"
+        />
+    </div>
+    <section
+        class="absolute ml-[50%] w-[854px] translate-x-[-50%] flex flex-col items-center gap-14 py-77"
+    >
+        <span
+            class="reveal text-(--text-1) font-[Bebas_Neue] font-normal text-7xl"
+            >Únete a nuestra comunidad</span
+        >
+        <ul class="reveal flex gap-8">
+            <li>
+                <a
+                    href={DISCORD_INVITE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="p-7 bg-(--bg-1) rounded-4xl block"
+                >
+                    <DiscordLogo width="58px" height="58px" />
+                </a>
+            </li>
+            <li>
+                <a
+                    href={INSTAGRAM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="p-7 bg-(--bg-1) rounded-4xl block"
+                >
+                    <InstagramLogo width="58px" height="58px" />
+                </a>
+            </li>
+            <li>
+                <a
+                    href={YOUTUBE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="p-7 bg-(--bg-1) rounded-4xl block"
+                >
+                    <YoutubeLogo width="58px" height="58px" />
+                </a>
+            </li>
+            <li>
+                <a
+                    href={TWITTER_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="p-7 bg-(--bg-1) rounded-4xl block"
+                >
+                    <XLogo width="58px" height="58px" />
+                </a>
+            </li>
+        </ul>
+    </section>
+</section>

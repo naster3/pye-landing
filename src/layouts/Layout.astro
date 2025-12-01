@@ -1,0 +1,65 @@
+---
+import "../styles/global.css";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Somos PyE</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@200..700&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Oswald:wght@200..700&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body
+		class="flex min-h-screen flex-col items-center justify-between bg-(--bg) overflow-x-hidden"
+	>
+		<main class="max-w-[1980px] w-full">
+			<Header />
+			<slot />
+			<Footer />
+		</main>
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const observer = new IntersectionObserver((entries) => {
+			entries.forEach((entry) => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add("visible");
+					// Si no querés que desaparezca cuando se deje de ver:
+					observer.unobserve(entry.target);
+				}
+			});
+		});
+
+		document
+			.querySelectorAll(".reveal")
+			.forEach((el) => observer.observe(el));
+	});
+</script>

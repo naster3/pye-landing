@@ -1,0 +1,40 @@
+---
+import Contact from "../components/Contact.astro";
+import CTA from "../components/CTA.astro";
+import Layout from "../layouts/Layout.astro";
+import Goals from "../components/Goals.astro";
+import Carousel from "../components/Carousel.astro";
+import Welcome from "../components/Welcome.astro";
+import Cover from "../components/Cover.astro";
+import Skeleton from "../assets/skeleton.svg";
+import Logo from "../assets/logo.svg";
+---
+
+<Layout>
+	<Cover />
+	<section class="relative pl-15 -z-10 pointer-events-none">
+		<div class="absolute top-20 pointer-events-none text-black">
+			<Skeleton />
+		</div>
+		<div class="absolute top-[750px] pointer-events-none">
+			<Skeleton />
+		</div>
+		<div class="absolute top-[1650px] pointer-events-none">
+			<Skeleton />
+		</div>
+		<div class="absolute top-[2250px] pointer-events-none">
+			<Skeleton />
+		</div>
+		<div class="absolute -left-10 top-[3100px] pointer-events-none">
+			<Logo class="text-(--logo) opacity-8" width={584} height={584} />
+		</div>
+		<div class="absolute right-10 top-[4000px] pointer-events-none">
+			<Logo class="text-(--logo) opacity-8" width={584} height={584} />
+		</div>
+	</section>
+	<Welcome />
+	<Carousel />
+	<Goals />
+	<Contact />
+	<CTA />
+</Layout>

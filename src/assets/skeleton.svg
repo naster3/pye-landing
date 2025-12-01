@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="467"
+   height="274"
+   viewBox="0 0 467 274"
+   fill="none"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="skeleton.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="2.1222628"
+     inkscape:cx="235.83319"
+     inkscape:cy="163.26913"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <g
+     filter="url(#filter0_f_0_43)"
+     id="g1">
+    <path
+       d="M241.3 242.3C246.823 242.3 251.3 246.777 251.3 252.3C251.3 257.823 246.823 262.3 241.3 262.3H21.3C15.7772 262.3 11.3 257.823 11.3 252.3C11.3 246.777 15.7772 242.3 21.3 242.3H241.3ZM353.3 166.3C358.823 166.3 363.3 170.777 363.3 176.3C363.3 181.823 358.823 186.3 353.3 186.3H21.3C15.7772 186.3 11.3 181.823 11.3 176.3C11.3 170.777 15.7772 166.3 21.3 166.3H353.3ZM166.3 135.3C171.823 135.3 176.3 139.777 176.3 145.3C176.3 150.823 171.823 155.3 166.3 155.3H21.3C15.7772 155.3 11.3 150.823 11.3 145.3C11.3 139.777 15.7772 135.3 21.3 135.3H166.3ZM445.3 104.3C450.823 104.3 455.3 108.777 455.3 114.3C455.3 119.823 450.823 124.3 445.3 124.3H21.3C15.7772 124.3 11.3 119.823 11.3 114.3C11.3 108.777 15.7772 104.3 21.3 104.3H445.3ZM166.3 73.3C171.823 73.3 176.3 77.7772 176.3 83.3C176.3 88.8229 171.823 93.3 166.3 93.3H21.3C15.7772 93.3 11.3 88.8229 11.3 83.3C11.3 77.7772 15.7772 73.3 21.3 73.3H166.3ZM260.3 11.3C265.823 11.3 270.3 15.7772 270.3 21.3C270.3 26.8229 265.823 31.3 260.3 31.3H21.3C15.7772 31.3 11.3 26.8229 11.3 21.3C11.3 15.7772 15.7772 11.3 21.3 11.3H260.3Z"
+       fill="url(#paint0_linear_0_43)"
+       id="path1" />
+  </g>
+  <defs
+     id="defs2">
+    <filter
+       id="filter0_f_0_43"
+       x="-9.53674e-07"
+       y="4.86374e-05"
+       width="466.6"
+       height="273.6"
+       filterUnits="userSpaceOnUse"
+       color-interpolation-filters="sRGB">
+      <feFlood
+         flood-opacity="0"
+         result="BackgroundImageFix"
+         id="feFlood1" />
+      <feBlend
+         mode="normal"
+         in="SourceGraphic"
+         in2="BackgroundImageFix"
+         result="shape"
+         id="feBlend1" />
+      <feGaussianBlur
+         stdDeviation="5.65"
+         result="effect1_foregroundBlur_0_43"
+         id="feGaussianBlur1" />
+    </filter>
+    <linearGradient
+       id="paint0_linear_0_43"
+       x1="455.3"
+       y1="136.8"
+       x2="11.3"
+       y2="136.8"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         stop-color="#F4F4F4"
+         id="stop1"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:0.05;" />
+      <stop
+         offset="1"
+         stop-color="#E7E7E7"
+         id="stop2"
+         style="stop-color:#000000;stop-opacity:0.1;" />
+    </linearGradient>
+  </defs>
+</svg>

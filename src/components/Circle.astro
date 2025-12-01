@@ -1,0 +1,43 @@
+---
+import Circle1 from "../assets/circle_0.svg";
+import Circle2 from "../assets/circle_1.svg";
+import Circle3 from "../assets/circle_2.svg";
+---
+
+<div class={Astro.props.class}>
+    <Circle1 class="absolute animate-spin" />
+    <Circle2 class="absolute animate-spin-clockwise" />
+    <Circle3 class="absolute animate-spin-2" />
+</div>
+
+<style>
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin-clockwise {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
+
+    .animate-spin {
+        animation: spin 100s linear infinite;
+    }
+
+    .animate-spin-2 {
+        animation: spin 150s linear infinite;
+    }
+
+    .animate-spin-clockwise {
+        animation: spin-clockwise 200s linear infinite;
+    }
+</style>

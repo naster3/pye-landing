@@ -1,0 +1,34 @@
+---
+import Logo from "../assets/logo.svg";
+import { NAVIGATION_LINKS, DISCORD_INVITE_URL } from "../consts.ts";
+---
+
+<header>
+    <nav
+        class="flex px-7 py-4 justify-between items-center font-[Bebas_Neue] font-normal text-2xl"
+    >
+        <a href="/">
+            <Logo
+                class="text-(--logo)"
+                height="40px"
+                width="40px"
+                data-target="logo"
+            />
+        </a>
+        <ul class="flex text-(--text-1)">
+            {
+                NAVIGATION_LINKS.map((item) => (
+                    <li class="pl-4 pr-4 pt-1 pb-1 uppercase hover:underline">
+                        <a href={item.href}>{item.name}</a>
+                    </li>
+                ))
+            }
+        </ul>
+        <a
+            href={DISCORD_INVITE_URL}
+            class="cursor-pointer p-2.5 pl-22 pr-22 text-white bg-(--bg-1) rounded-lg text-2xl
+            hidden lg:inline-block"
+            >Unirme a la comunidad</a
+        >
+    </nav>
+</header>
