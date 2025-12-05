@@ -9,13 +9,13 @@ import { NAVIGATION_LINKS, DISCORD_INVITE_URL } from "../consts.ts";
     >
         <a href="/">
             <Logo
-                class="text-(--logo)"
+                class="text-(--logo) z-101"
                 height="40px"
                 width="40px"
                 data-target="logo"
             />
         </a>
-        <ul class="flex text-(--text-1)">
+        <ul class="md:flex text-(--text-1) hidden">
             {
                 NAVIGATION_LINKS.map((item) => (
                     <li class="pl-4 pr-4 pt-1 pb-1 uppercase hover:underline">
@@ -24,6 +24,17 @@ import { NAVIGATION_LINKS, DISCORD_INVITE_URL } from "../consts.ts";
                 ))
             }
         </ul>
+        <button
+            id="menu-button"
+            class="relative md:hidden flex flex-row items-center justify-between"
+        >
+            <span class="relative w-6 h-6"></span>
+            <span id="menu-open" class="absolute hover:cursor-pointer w-6 h-6">
+                <span class="menu-line translate-y-2"></span>
+                <span class="menu-line"></span>
+                <span class="menu-line -translate-y-2"></span>
+            </span>
+        </button>
         <a
             href={DISCORD_INVITE_URL}
             class="cursor-pointer p-2.5 pl-22 pr-22 text-white bg-(--bg-1) rounded-lg text-2xl
@@ -31,4 +42,59 @@ import { NAVIGATION_LINKS, DISCORD_INVITE_URL } from "../consts.ts";
             >Unirme a la comunidad</a
         >
     </nav>
+    <nav
+        class="fixed top-0 right-0 h-screen z-100 bg-(--bg-2) flex flex-col p-5 border-l border-(--border)
+        transition-all duration-300 translate-x-full"
+    >
+        <button id="menu-close" class="relative w-6 h-6 cursor-pointer">
+            <span class="menu-line rotate-45"></span>
+            <span class="menu-line -rotate-45"></span>
+        </button>
+        <ul class="text-(--text-1) mt-3.5 flex flex-col">
+            {
+                NAVIGATION_LINKS.map((item) => (
+                    <li class="py-3 pr-20 uppercase hover:underline block cursor-pointer border-y border-(--border)">
+                        <a href={item.href}>{item.name}</a>
+                    </li>
+                ))
+            }
+        </ul>
+    </nav>
 </header>
+
+<style>
+    .menu-line {
+        position: absolute;
+        top: calc(50% - 2px);
+        display: block;
+        width: 25px;
+        height: 4px;
+        border-radius: 2px;
+        background-color: var(--text-1);
+        transition: all 0.3s ease;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const menuButton = document.getElementById(
+            "menu-button",
+        ) as HTMLButtonElement;
+
+        const menuClose = document.getElementById(
+            "menu-close",
+        ) as HTMLButtonElement;
+
+        const sideNav = menuClose?.parentElement as HTMLElement;
+
+        if (!menuButton || !menuClose || !sideNav) return;
+
+        menuButton.addEventListener("click", () => {
+            sideNav.classList.remove("translate-x-full");
+        });
+
+        menuClose.addEventListener("click", () => {
+            sideNav.classList.add("translate-x-full");
+        });
+    });
+</script>

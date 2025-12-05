@@ -24,7 +24,7 @@ const panels: Panel[] = [
 panels.push(...panels); // Duplicate panels for seamless looping
 ---
 
-<section class="mask-l-from-97% mask-r-from-97% overflow-hidden w-full">
+<section class="reveal mask-l-from-97% mask-r-from-97% overflow-hidden w-full">
     <div
         id="carousel"
         class="animated-slide-left flex flex-row gap-10 justify-center"
@@ -33,9 +33,9 @@ panels.push(...panels); // Duplicate panels for seamless looping
             panels.map((panel, index) => (
                 <div
                     id={`panel-${index}`}
-                    class="panel reveal w-[456px] box-border shrink-0 h-[570px] bg-(--bg-4) rounded-3xl flex flex-col justify-end items-start gap-10 p-10 text-3xl text-(--text-2)"
+                    class="panel w-[356px] lg:w-[456px] box-border shrink-0 h-[470px] lg:h-[570px] bg-(--bg-4) rounded-3xl flex flex-col justify-end items-start gap-10 p-10 text-3xl text-(--text-2)"
                 >
-                    <span class="text-6xl w-full wrap-anywhere">
+                    <span class="text-4xl lg:text-6xl w-full wrap-anywhere">
                         {panel.description}
                     </span>
                 </div>
@@ -44,7 +44,7 @@ panels.push(...panels); // Duplicate panels for seamless looping
     </div>
 </section>
 <style>
-    @keyframes slide-left {
+    @keyframes slide-left-lg {
         0% {
             transform: translateX(0);
         }
@@ -53,8 +53,23 @@ panels.push(...panels); // Duplicate panels for seamless looping
         }
     }
 
+    @keyframes slide-left {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-396px); /* panel width + gap */
+        }
+    }
+
     .animated-slide-left {
         animation: slide-left 5s linear infinite;
+    }
+
+    @media (min-width: 1024px) {
+        .animated-slide-left {
+            animation: slide-left-lg 5s linear infinite;
+        }
     }
 </style>
 

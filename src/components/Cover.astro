@@ -6,7 +6,7 @@ const DISABLE_COVER = false;
 
 <section
     id="cover"
-    class={"fixed w-screen h-screen bg-(--bg-3) top-0 left-0 z-20 flex justify-center items-center pointer-events-none" +
+    class={"fixed w-screen h-screen bg-(--bg-3) top-0 left-0 z-102 flex justify-center items-center pointer-events-none" +
         (DISABLE_COVER ? " hidden" : "")}
 >
     <Logo
@@ -19,7 +19,6 @@ const DISABLE_COVER = false;
         >PyE</span
     >
 </section>
-
 <style>
     @keyframes text-fade {
         70% {
@@ -57,8 +56,13 @@ const DISABLE_COVER = false;
             forwards;
     }
 </style>
-
+{
+    DISABLE_COVER
+        ? ""
+        : (
 <script>
+    window.scrollTo(0, 0);
+
     document.addEventListener("DOMContentLoaded", () => {
         async function startFade() {
             function hide(element: HTMLElement) {
@@ -91,12 +95,16 @@ const DISABLE_COVER = false;
 
             hide(text);
 
-            const coverRect = getPosition(cover);
-            const coverRadius =
-                Math.sqrt(
-                    Math.pow(coverRect.left + coverRect.width, 2) +
-                        Math.pow(coverRect.top + coverRect.height, 2),
-                ) * 1.6;
+            const coverRect = {
+                top: window.scrollY,
+                left: window.scrollX,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            };
+            const coverRadius = Math.sqrt(
+                Math.pow(coverRect.left + coverRect.width, 2) +
+                    Math.pow(coverRect.top + coverRect.height, 2),
+            );
 
             console.log(coverRadius);
 
@@ -110,7 +118,7 @@ const DISABLE_COVER = false;
             logo.style.animation = "none";
             logo.style.transition = "none";
             logo.style.opacity = "1";
-            logo.style.zIndex = "20";
+            logo.style.zIndex = "103";
 
             hide(cover);
 
@@ -126,13 +134,18 @@ const DISABLE_COVER = false;
                 "cubic-bezier(.88,-0.55,.43,.99)";
 
             // create a full cover to make a circle effect closing around the logo
+            const coverCenter = {
+                x: targetRect.left + targetRect.width / 2 + window.scrollX,
+                y: targetRect.top + targetRect.height / 2 + window.scrollY,
+            };
+
             const fullCover = document.createElement("div");
             fullCover.style.position = "absolute";
-            fullCover.style.top = `${targetRect.top + targetRect.height / 2 - coverRadius}px`;
-            fullCover.style.left = `${targetRect.left + targetRect.width / 2 - coverRadius}px`;
+            fullCover.style.top = `${coverCenter.y - coverRadius}px`;
+            fullCover.style.left = `${coverCenter.x - coverRadius}px`;
             fullCover.style.width = `${coverRadius * 2}px`;
             fullCover.style.height = `${coverRadius * 2}px`;
-            fullCover.style.zIndex = "19";
+            fullCover.style.zIndex = "102";
             fullCover.style.backgroundColor = getComputedStyle(
                 document.documentElement,
             ).getPropertyValue("--bg-3");
@@ -159,3 +172,5 @@ const DISABLE_COVER = false;
         }, 2000);
     });
 </script>
+        )
+}

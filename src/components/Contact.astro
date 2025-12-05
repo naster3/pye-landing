@@ -2,17 +2,23 @@
 
 ---
 
-<section id="contact" class="flex justify-between items-center py-0 pl-15">
-    <div class="reveal w-[540px] flex flex-col gap-6 text-2xl">
-        <div class="text-7xl font-[Bebas_Neue] font-normal text-(--text-1)">
+<section
+    id="contact"
+    class="flex overflow-hidden lg:overflow-visible flex-col lg:flex-row justify-between items-center gap-10 py-0 lg:pl-15"
+>
+    <div class="reveal lg:w-[540px] flex flex-col gap-6 px-10">
+        <div
+            class="text-6xl lg:text-7xl font-[Bebas_Neue] font-normal text-(--text-1)"
+        >
             ¿Quieres colaborar con nosotros?
         </div>
-        <div class="text-(--text-2) text-2xl">
+        <div class="text-(--text-2) text-[20px] lg:text-2xl">
             ¡Envíanos un mensaje y nos pondremos en contacto contigo!
         </div>
     </div>
     <form
-        class="reveal bg-(--bg-4) p-15 pr-7 rounded-l-4xl flex flex-col gap-10 text-white text-2xl drop-shadow-2xl drop-shadow-black"
+        class="reveal bg-(--bg-4) px-10 py-15 lg:p-15 lg:pr-7 lg:rounded-l-4xl flex flex-col w-full lg:w-auto
+               gap-10 text-white text-2xl drop-shadow-2xl drop-shadow-black"
     >
         <span class="text-6xl font-[Bebas_Neue] font-normal mb-2"
             >Contáctanos</span
@@ -22,7 +28,7 @@
                 >Nombre</label
             >
             <input
-                class="placeholder-(--placeholder) text-white w-[607px] bg-(--bg-3) h-12 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
+                class="placeholder-(--placeholder) text-white lg:w-[607px] bg-(--bg-3) h-12 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
                 type="text"
                 id="name"
                 name="name"
@@ -34,7 +40,7 @@
                 >Correo Electrónico</label
             >
             <input
-                class="placeholder-(--placeholder) text-white w-[607px] bg-(--bg-3) h-12 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
+                class="placeholder-(--placeholder) text-white lg:w-[607px] bg-(--bg-3) h-12 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
                 type="email"
                 id="email"
                 name="email"
@@ -46,7 +52,7 @@
                 >Mensaje</label
             >
             <textarea
-                class="placeholder-(--placeholder) text-white w-[607px] bg-(--bg-3) py-4 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
+                class="placeholder-(--placeholder) text-white lg:w-[607px] bg-(--bg-3) py-4 px-6 rounded-lg mt-4 text-[16px] focus:outline-none"
                 id="message"
                 name="message"
                 rows="3"

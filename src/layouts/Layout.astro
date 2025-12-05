@@ -12,7 +12,10 @@ import Footer from "../components/Footer.astro";
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, user-scalable=no"
+		/>
 		<title>Somos PyE</title>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +30,7 @@ import Footer from "../components/Footer.astro";
 		/>
 	</head>
 	<body
-		class="flex min-h-screen flex-col items-center justify-between bg-(--bg) overflow-x-hidden"
+		class="flex w-screen min-h-screen flex-col items-center justify-between bg-(--bg) overflow-x-hidden"
 	>
 		<main class="max-w-[1980px] w-full">
 			<Header />

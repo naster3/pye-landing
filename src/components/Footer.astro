@@ -6,38 +6,56 @@ import {
     YOUTUBE_URL,
     TWITTER_URL,
     INSTAGRAM_URL,
+    SOCIAL_LINKS,
 } from "../consts.ts";
 ---
 
 <footer
-    class="flex flex-col justify-between bg-(--bg-2) p-16 text-(--text-1) w-screen left-0 absolute"
+    class="flex flex-col justify-between bg-(--bg-2) p-10 md:p-16 text-(--text-1) w-screen left-0 absolute"
 >
     <div class="max-w-[1980px] mx-auto w-full">
-        <section class="mb-6 border-b border-(--border) pb-16 text-(--logo)">
+        <section
+            class="mb-6 border-b border-(--border) pb-10 md:pb-16 text-(--logo)"
+        >
             <a href="/"><Logo width="58px" height="58px" /></a>
         </section>
         <section
-            class="mb-4 flex justify-between font-[Bebas_Neue] font-normal text-2xl"
+            class="flex flex-col lg:flex-row justify-between gap-10 lg:gap-0 text-sm md:text-lg"
         >
-            <span>Enlaces</span>
-            <span>Redes Sociales</span>
-        </section>
-        <section class="flex justify-between text-lg">
-            <ul class="flex flex-row gap-9">
-                {
-                    NAVIGATION_LINKS.map((item) => (
-                        <li>
-                            <a href={item.href}>{item.name}</a>
-                        </li>
-                    ))
-                }
-            </ul>
-            <ul class="flex flex-row gap-9">
-                <li><a href={INSTAGRAM_URL}>Instagram</a></li>
-                <li><a href={YOUTUBE_URL}>Youtube</a></li>
-                <li><a href={TWITTER_URL}>X</a></li>
-                <li><a href={DISCORD_INVITE_URL}>Discord</a></li>
-            </ul>
+            <div>
+                <span
+                    class="mb-4 flex justify-start font-[Bebas_Neue] font-normal text-xl md:text-2xl"
+                    >Enlaces</span
+                >
+                <ul class="flex flex-row justify-between md:gap-9">
+                    {
+                        NAVIGATION_LINKS.map((item) => (
+                            <li>
+                                <a href={item.href} class="hover:underline">
+                                    {item.name}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+            <div>
+                <span
+                    class="mb-4 flex justify-start lg:justify-end font-[Bebas_Neue] font-normal text-xl md:text-2xl"
+                    >Redes Sociales</span
+                >
+                <ul class="flex flex-row justify-between md:gap-9">
+                    {
+                        SOCIAL_LINKS.map((item) => (
+                            <li>
+                                <a href={item.href} class="hover:underline">
+                                    {item.name}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
         </section>
     </div>
 </footer>

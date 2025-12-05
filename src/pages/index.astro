@@ -12,7 +12,7 @@ import Logo from "../assets/logo.svg";
 
 <Layout>
 	<Cover />
-	<section class="relative pl-15 -z-10 pointer-events-none">
+	<section class="relative w-0 h-0 pl-15 -z-10 pointer-events-none md:w-auto">
 		<div class="absolute top-20 pointer-events-none text-black">
 			<Skeleton />
 		</div>
@@ -29,7 +29,11 @@ import Logo from "../assets/logo.svg";
 			<Logo class="text-(--logo) opacity-8" width={584} height={584} />
 		</div>
 		<div class="absolute right-10 top-[4000px] pointer-events-none">
-			<Logo class="text-(--logo) opacity-8" width={584} height={584} />
+			<Logo
+				class="text-(--logo) opacity-8 hidden 2xl:block"
+				width={584}
+				height={584}
+			/>
 		</div>
 	</section>
 	<Welcome />
