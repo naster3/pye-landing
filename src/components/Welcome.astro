@@ -148,7 +148,6 @@ import { DISCORD_INVITE_URL } from "../consts.ts";
 			inputElement.style.color = "white";
 			inputElement.style.outline = "none";
 			consoleElement.appendChild(inputElement);
-			inputElement.focus();
 
 			return new Promise<String>((resolve) => {
 				inputElement.addEventListener("keydown", (event) => {

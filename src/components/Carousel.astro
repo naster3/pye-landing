@@ -78,7 +78,6 @@ panels.push(...panels); // Duplicate panels for seamless looping
         const carousel = document.getElementById("carousel");
 
         carousel?.addEventListener("animationiteration", () => {
-            console.log("Animation iteration completed");
             carousel.appendChild(carousel.firstElementChild);
         });
     });

@@ -106,8 +106,6 @@ const DISABLE_COVER = false;
                     Math.pow(coverRect.top + coverRect.height, 2),
             );
 
-            console.log(coverRadius);
-
             // Make logo free-floating
             const logoRect = getPosition(logo);
             logo.parentElement!.removeChild(logo);
@@ -157,6 +155,7 @@ const DISABLE_COVER = false;
 
             setTimeout(() => {
                 fullCover.style.transform = "scale(0)";
+                document.body.classList.remove("overflow-y-hidden");
 
                 setTimeout(() => {
                     logo.parentElement!.removeChild(logo);

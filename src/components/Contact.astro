@@ -59,8 +59,67 @@
                 placeholder="Ingresa tu nombre"></textarea>
         </div>
         <button
+            id="send-button"
             class="bg-(--bg-2) hover:cursor-pointer text-[20px] text-(--text-1) h-12 rounded-lg font-[Bebas_Neue] font-normal text-2xl"
             >Enviar</button
         >
     </form>
 </section>
+
+<script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const sendBtn = document.getElementById(
+            "send-button",
+        ) as HTMLButtonElement;
+        if (!sendBtn) return;
+
+        sendBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            sendBtn.disabled = true;
+            sendBtn.innerText = "Enviando...";
+
+            const nameInput = document.getElementById(
+                "name",
+            ) as HTMLInputElement;
+            const emailInput = document.getElementById(
+                "email",
+            ) as HTMLInputElement;
+            const messageInput = document.getElementById(
+                "message",
+            ) as HTMLInputElement;
+
+            if (!nameInput || !emailInput || !messageInput) return;
+
+            fetch("http://localhost:3000/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: nameInput.value,
+                    email: emailInput.value,
+                    message: messageInput.value,
+                }),
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        sendBtn.disabled = false;
+                        sendBtn.innerText = "Enviado ✔";
+                        setTimeout(() => {
+                            sendBtn.innerText = "Enviar";
+                        }, 3000);
+                        nameInput.value = "";
+                        emailInput.value = "";
+                        messageInput.value = "";
+                    } else {
+                        alert("Error al enviar el mensaje.");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    alert("Error al enviar el mensaje.");
+                });
+        });
+    });
+</script>
