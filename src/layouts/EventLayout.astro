@@ -1,0 +1,88 @@
+---
+// Layout base para las paginas de detalle de eventos.
+import Layout from "./Layout.astro";
+import { formatEventDate } from "../lib/events-utils";
+
+const {
+    title,
+    date,
+    time,
+    description,
+    links = [],
+} = Astro.props;
+
+const dateLabel = date ? formatEventDate(date, time) : "Fecha por confirmar";
+---
+
+<Layout>
+    <section
+        class="relative flex flex-col gap-12 py-24 md:py-30 lg:py-36 px-5 md:px-10 lg:px-15 text-(--text-1)"
+    >
+        <div class="reveal flex flex-col gap-4 max-w-[900px]">
+            <span class="text-xl md:text-2xl text-(--text-2)">Evento</span>
+            <h1 class="font-[Bebas_Neue] text-4xl md:text-5xl lg:text-7xl">
+                {title}
+            </h1>
+            <div class="text-(--text-2) text-sm uppercase tracking-widest">
+                {dateLabel}
+            </div>
+            {description && (
+                <p class="text-(--text-2) text-[18px] md:text-[20px] lg:text-2xl">
+                    Que es: {description}
+                </p>
+            )}
+            {links.length > 0 && (
+                <div class="flex flex-wrap gap-4 text-base">
+                    {links.map((link) => (
+                        <a
+                            class="text-(--text-1) underline"
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+        <div class="event-content max-w-[900px]">
+            <slot />
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .event-content {
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--text-2);
+    }
+
+    .event-content :global(h2) {
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 2.25rem;
+        color: var(--text-1);
+    }
+
+    .event-content :global(p) {
+        margin-top: 1rem;
+    }
+
+    .event-content :global(ul) {
+        margin-top: 1rem;
+        padding-left: 1.5rem;
+        list-style: disc;
+    }
+
+    .event-content :global(li) {
+        margin-top: 0.5rem;
+    }
+
+    .event-content :global(a) {
+        color: var(--text-1);
+        text-decoration: underline;
+    }
+</style>

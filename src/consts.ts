@@ -18,8 +18,8 @@ interface Link {
 
 export const NAVIGATION_LINKS: Link[] = [
     { name: "Unirme", href: DISCORD_INVITE_URL },
-    { name: "Eventos", href: "#events" },
-    { name: "Contactos", href: "#contact" },
+    { name: "Eventos", href: "/events" },
+    { name: "Contactos", href: "/#contact" },
     { name: "GitHub", href: GITHUB_URL },
     { name: "PyE Times", href: PYETIMES_URL },
 ];

@@ -1,0 +1,132 @@
+---
+// Archivos de eventos: index.astro, meetup-proyectos.mdx, taller-practico.mdx, demo-day-pye.mdx
+import Layout from "../../layouts/Layout.astro";
+import { DISCORD_INVITE_URL } from "../../consts";
+import type { EventEntry } from "../../lib/events-types";
+import { fetchEvents } from "../../lib/events-api";
+import { formatEventDate, parseEventDateTime } from "../../lib/events-utils";
+
+export const prerender = false;
+
+const backendBaseUrl = import.meta.env.BACKEND_URL;
+const backendUrl = backendBaseUrl
+    ? new URL("/events", backendBaseUrl).toString()
+    : new URL("/backend/events", Astro.request.url).toString();
+
+const rawEvents = await fetchEvents(backendUrl);
+
+type EventWithDate = EventEntry & { dateTime: Date };
+
+const eventsWithDate = rawEvents
+    .map((event) => ({
+        ...event,
+        dateTime: parseEventDateTime(event.date, event.time),
+    }))
+    .filter((event) => !Number.isNaN(event.dateTime.getTime()));
+
+const now = new Date();
+
+const futureEvents = eventsWithDate
+    .filter((event) => event.dateTime >= now)
+    .sort((a, b) => {
+        const dateDiff = a.dateTime.getTime() - b.dateTime.getTime();
+        if (dateDiff !== 0) return dateDiff;
+        return a.priority - b.priority;
+    });
+
+const pastEvents = eventsWithDate
+    .filter((event) => event.dateTime < now)
+    .sort((a, b) => {
+        const dateDiff = b.dateTime.getTime() - a.dateTime.getTime();
+        if (dateDiff !== 0) return dateDiff;
+        return a.priority - b.priority;
+    });
+
+const nextEvent = futureEvents.shift() ?? null;
+const orderedEvents = nextEvent
+    ? [nextEvent, ...futureEvents, ...pastEvents]
+    : [...futureEvents, ...pastEvents];
+---
+
+<Layout>
+    <section
+        class="relative flex flex-col gap-12 py-30 md:py-36 lg:py-40 px-5 md:px-10 lg:px-15 text-(--text-1)"
+    >
+        <div class="reveal flex flex-col gap-4 max-w-[900px]">
+            <span class="text-xl md:text-2xl text-(--text-2)">Eventos</span>
+            <h1 class="font-[Bebas_Neue] text-4xl md:text-5xl lg:text-7xl">
+                Agenda de la comunidad
+            </h1>
+            <p class="text-(--text-2) text-[18px] md:text-[20px] lg:text-2xl">
+                Encuentros para practicar, compartir y conectar con gente que
+                programa.
+            </p>
+        </div>
+
+        {orderedEvents.length > 0 ? (
+            <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {orderedEvents.map((event) => (
+                    <article
+                        class="bg-(--bg-4) rounded-3xl p-8 border border-(--border) flex flex-col gap-6"
+                    >
+                        <div class="text-(--text-2) text-sm uppercase tracking-widest">
+                            {formatEventDate(event.date, event.time)}
+                        </div>
+                        <div class="text-3xl font-[Bebas_Neue]">
+                            {event.title}
+                        </div>
+                        {event.description && (
+                            <p class="text-(--text-2)">
+                                Que es: {event.description}
+                            </p>
+                        )}
+                        {event.links.length > 0 && (
+                            <div class="flex flex-wrap gap-4 text-sm">
+                                {event.links.map((link) => (
+                                    <a
+                                        class="text-(--text-1) underline"
+                                        href={link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {link.label}
+                                    </a>
+                                ))}
+                            </div>
+                        )}
+                        <a
+                            class="text-(--text-1) underline"
+                            href={`/events/${event.slug}`}
+                        >
+                            Ver detalles
+                        </a>
+                    </article>
+                ))}
+            </div>
+        ) : (
+            <div class="reveal bg-(--bg-4) rounded-3xl p-8 border border-(--border)">
+                <p class="text-(--text-2)">Aun no hay eventos publicados.</p>
+            </div>
+        )}
+    </section>
+
+    <section class="relative py-16 md:py-20 px-5 md:px-10 lg:px-15">
+        <div class="reveal bg-(--bg-4) rounded-3xl p-10 border border-(--border) flex flex-col gap-6 max-w-[900px]">
+            <h2 class="font-[Bebas_Neue] text-3xl md:text-4xl text-(--text-1)">
+                Propon un evento
+            </h2>
+            <p class="text-(--text-2) text-[18px] md:text-[20px]">
+                Queres proponer un evento? Escribinos y lo armamos juntos con
+                la comunidad.
+            </p>
+            <a
+                class="text-(--text-1) underline"
+                href={DISCORD_INVITE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Escribir por Discord
+            </a>
+        </div>
+    </section>
+</Layout>
